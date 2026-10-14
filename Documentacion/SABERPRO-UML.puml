@@ -1,0 +1,341 @@
+@startuml SABERPRO-UML
+
+title SABERPRO – Diagrama de clases definitivo
+skinparam shadowing false
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+skinparam ClassBorderThickness 3
+skinparam PackageBorderThickness 3
+skinparam ArrowThickness 3
+skinparam RoundCorner 0
+skinparam defaultFontName Arial
+skinparam nodesep 60
+skinparam ranksep 80
+skinparam ClassFontStyle bold
+skinparam ClassAttributeFontSize 12
+
+hide empty members
+
+package pkgPresentation #F5F9FD;line:083F75;line.bold;line.dashed {
+  interface IAppController #E6EEF7;line:083F75;line.bold {
+    +opLogin(prmRequest: rqtValidateUser): rpsValidateUser
+    +opCreateStudent(prmRequest: rqtStudent): rpsUser
+    +opCreateUser(prmRequest: rqtUser): rpsUser
+    +opUpdateUser(prmRequest: rqtUser): rpsUser
+    +opModifyRole(prmUsername: String, prmRole: EnumRole): void
+    +opDisableUser(prmUsername: String): void
+    +opGetUser(prmUsername: String): rpsUser
+    +opGetAllUsers(): List<rpsUser>
+    +opCreateQuestion(prmRequest: rqtQuestion): rpsQuestion
+    +opUpdateQuestion(prmRequest: rqtUpdateQuestion): rpsQuestion
+    +opAssignReviewer(prmRequest: rqtAssignReviewer): rpsQuestion
+    +opChangeStatus(prmRequest: rqtChangeStatus): rpsQuestion
+    +opGetQuestionsByAuthor(prmUsername: String): List<rpsQuestion>
+  }
+  class clsAppController #E6EEF7;line:083F75;line.bold {
+    -attIUserService: IServiceUser
+    -attIAdministratorService: IserviceAdministrator
+    -attIQuestionService: IServiceQuestion
+    --
+    +opLogin(prmRequest: rqtValidateUser): rpsValidateUser
+    +opCreateStudent(prmRequest: rqtStudent): rpsUser
+    +opCreateUser(prmRequest: rqtUser): rpsUser
+    +opUpdateUser(prmRequest: rqtUser): rpsUser
+    +opModifyRole(prmUsername: String, prmRole: EnumRole): void
+    +opDisableUser(prmUsername: String): void
+    +opGetUser(prmUsername: String): rpsUser
+    +opGetAllUsers(): List<rpsUser>
+    +opCreateQuestion(prmRequest: rqtQuestion): rpsQuestion
+    +opUpdateQuestion(prmRequest: rqtUpdateQuestion): rpsQuestion
+    +opAssignReviewer(prmRequest: rqtAssignReviewer): rpsQuestion
+    +opChangeStatus(prmRequest: rqtChangeStatus): rpsQuestion
+    +opGetQuestionsByAuthor(prmUsername: String): List<rpsQuestion>
+    -opValidatePasswordFormat(prmPassword: String): void
+    -opToRpsUser(prmUser: clsUser): rpsUser
+    -opToRpsQuestion(prmQuestion: clsQuestion): rpsQuestion
+  }
+}
+
+package pkgServices #F6FAFE;line:1168BD;line.bold;line.dashed {
+  interface IServiceUser #E8F1FB;line:1168BD;line.bold {
+    +opValidateUser(prmRequest: rqtValidateUser): rpsValidateUser
+    +opCreateStudent(prmRequest: rqtStudent): clsUser
+    +opGetUser(prmUsername: String): clsUser
+  }
+  interface IserviceAdministrator #E8F1FB;line:1168BD;line.bold {
+    +opCreateUser(prmRequest: rqtUser): clsUser
+    +opUpdateUser(prmRequest: rqtUser): clsUser
+    +opModifyRole(prmUsername: String, prmRole: EnumRole): void
+    +opDisableUser(prmUsername: String): void
+    +opGetAllUsers(): List<clsUser>
+  }
+  interface IServiceQuestion #E8F1FB;line:1168BD;line.bold {
+    +opCreateQuestion(prmRequest: rqtQuestion): clsQuestion
+    +opUpdateQuestion(prmRequest: rqtUpdateQuestion): clsQuestion
+    +opAssignReviewer(prmRequest: rqtAssignReviewer): clsQuestion
+    +opChangeStatus(prmRequest: rqtChangeStatus): clsQuestion
+    +opGetQuestionByAuthor(prmUsername: String): List<clsQuestion>
+  }
+  interface IServiceSecurity #E8F1FB;line:1168BD;line.bold {
+    +opEncryptPassword(prmPassword: String): String
+    +opValidatePassword(prmPassword: String, prmStoredHash: String): boolean
+  }
+  class clsServiceUser <<Service>> #E8F1FB;line:1168BD;line.bold {
+    -attServiceSecurity: IServiceSecurity
+    -attRepositoryUser: IRepositoryUser
+    --
+    +opValidateUser(prmRequest: rqtValidateUser): rpsValidateUser
+    +opCreateStudent(prmRequest: rqtStudent): clsUser
+    +opGetUser(prmUsername: String): clsUser
+  }
+  class clsServiceAdministrator <<Service>> #E8F1FB;line:1168BD;line.bold {
+    -attServiceSecurity: IServiceSecurity
+    -attRepositoryUser: IRepositoryUser
+    --
+    +opCreateUser(prmRequest: rqtUser): clsUser
+    +opUpdateUser(prmRequest: rqtUser): clsUser
+    +opModifyRole(prmUsername: String, prmRole: EnumRole): void
+    +opDisableUser(prmUsername: String): void
+    +opGetAllUsers(): List<clsUser>
+  }
+  class clsServicesQuestion <<Service>> #E8F1FB;line:1168BD;line.bold {
+    -attMicroKernel: clsMicroKernel
+    -attValidator: clsValidatorQuestion
+    -attRepositoryQuestion: IRepositoryQuestion
+    --
+    +opCreateQuestion(prmRequest: rqtQuestion): clsQuestion
+    +opUpdateQuestion(prmRequest: rqtUpdateQuestion): clsQuestion
+    +opAssignReviewer(prmRequest: rqtAssignReviewer): clsQuestion
+    +opChangeStatus(prmRequest: rqtChangeStatus): clsQuestion
+    +opGetQuestionByAuthor(prmUsername: String): List<clsQuestion>
+  }
+  class clsServiceSecurity <<Service>> #E8F1FB;line:1168BD;line.bold {
+    +opEncryptPassword(prmPassword: String): String
+    +opValidatePassword(prmPassword: String, prmStoredHash: String): boolean
+  }
+}
+
+package pkgMicroKernel #FFFBF1;line:B7791F;line.bold;line.dashed {
+  class clsMicroKernel #FFF3DA;line:B7791F;line.bold {
+    -attPluginManager: clsPluginManager
+    -attRepositoryQuestion: IRepositoryQuestion
+    --
+    +opCreateQuestion(prmRequest: rqtQuestion): clsQuestion
+  }
+  class clsPluginManager #FFF3DA;line:B7791F;line.bold {
+    -attRegistry: clsPluginRegistry
+    --
+    +opRegisterPlugin(prmPlugin: IQuestionPlugin): void
+    +opGetPlugin(prmType: String): IQuestionPlugin
+    +opDiscoverPlugins(prmPackage: String): void
+  }
+  class clsPluginRegistry #FFF3DA;line:B7791F;line.bold {
+    -attPlugins: Map<String, IQuestionPlugin>
+    --
+    +opRegisterPlugin(prmPlugin: IQuestionPlugin): void
+    +opGetPlugin(prmType: String): IQuestionPlugin
+  }
+}
+
+package pkgPlugins #FFFBF1;line:B7791F;line.bold;line.dashed {
+  interface IQuestionPlugin #FFF3DA;line:B7791F;line.bold {
+    +opGetName(): String
+    +opSupports(prmType: String): boolean
+    +opGenerateQuestion(prmRequest: rqtQuestion): clsQuestion
+  }
+  class plgMultipleChoice #FFF3DA;line:B7791F;line.bold {
+    +opGetName(): String
+    +opSupports(prmType: String): boolean
+    +opGenerateQuestion(prmRequest: rqtQuestion): clsQuestion
+  }
+}
+
+package pkgUtil #FAFAFA;line:595959;line.bold;line.dashed {
+  class clsValidatorQuestion #EFEFEF;line:595959;line.bold {
+    +opValidateContext(prmRequest: rqtQuestion): void
+    +opValidateAnswer(prmRequest: rqtQuestion): void
+  }
+}
+
+package pkgRepository #F4FAF4;line:2E7D32;line.bold;line.dashed {
+  interface JpaRepository <<external>> #E6F4E7;line:2E7D32;line.bold {
+  }
+  interface IRepositoryUser <<Repository>> #E6F4E7;line:2E7D32;line.bold {
+    +opExistsUser(prmUsername: String): boolean
+    +opGetRole(prmUsername: String): EnumRole
+    +opFindByUsername(prmUsername: String): clsUser
+  }
+  interface IRepositoryQuestion <<Repository>> #E6F4E7;line:2E7D32;line.bold {
+    +opFindByAuthor(prmAuthor: clsUser): List<clsQuestion>
+  }
+}
+
+package pkgModels #FAFAFA;line:000000;line.bold;line.dashed {
+  class clsUser <<Entity>> #FFFFFF;line:000000;line.bold {
+    -attUsername: String
+    -arrPassword: encripted String
+    -attName: String
+    -attEmail: String
+    -attRole: EnumRole
+  }
+  class clsQuestion <<Entity>> #FFFFFF;line:000000;line.bold {
+    -attId: int
+    -attContext: var
+    -attQuestion: String
+    -attAnswers: List<String>
+    -attCorrectAnswer: String
+    -attBibliography: String
+    -attTopic: String
+    -attSubTopic: String
+    -attDificulty: EnumDificulty
+    -attStatus: EnumStatus
+    -attAuthor: clsUser
+    -attReviewer1: clsUser
+    -attReviewer2: clsUser
+    -attType: String
+  }
+  enum EnumRole #FFFFFF;line:000000;line.bold {
+    ADMINISTRATOR
+    STUDENT
+    TEACHER
+    REVIEWER
+    QUESTIONAUTHOR
+  }
+  enum EnumStatus #FFFFFF;line:000000;line.bold {
+    DRAFT
+    PENDINGREVIEW
+    UNDER REVIEW
+    APPROVED
+    REJECTED
+    PUBLISHED
+    FILED
+  }
+  enum EnumDificulty #FFFFFF;line:000000;line.bold {
+    HIGH
+    MEDIUM
+    LOW
+  }
+}
+
+package pkgDTO #FBF6FD;line:6A1B9A;line.bold;line.dashed {
+  class rqtUser <<record>> #F3E8F9;line:6A1B9A;line.bold {
+    -attUsername: String
+    -attPassword: String
+    -attName: String
+    -attEmail: String
+    -attRole: EnumRole
+  }
+  class rqtStudent <<record>> #F3E8F9;line:6A1B9A;line.bold {
+    -attUsername: String
+    -attPassword: String
+    -attName: String
+    -attEmail: String
+  }
+  class rqtValidateUser <<record>> #F3E8F9;line:6A1B9A;line.bold {
+    -attUsername: String
+    -attPassword: String
+  }
+  class rpsValidateUser <<record>> #F3E8F9;line:6A1B9A;line.bold {
+    -attUsername: String
+    -attName: String
+    -attRole: EnumRole
+  }
+  class rqtQuestion <<record>> #F3E8F9;line:6A1B9A;line.bold {
+    -attContext: String
+    -attQuestion: String
+    -attAnswers: List<String>
+    -attCorrectAnswer: String
+    -attBibliography: String
+    -attTopic: String
+    -attSubTopic: String
+    -attDificulty: EnumDificulty
+    -attType: String
+    -attAuthor: String
+  }
+  class rqtUpdateQuestion <<record>> #F3E8F9;line:6A1B9A;line.bold {
+    -attId: int
+    -attContext: String
+    -attQuestion: String
+    -attAnswers: List<String>
+    -attCorrectAnswer: String
+    -attBibliography: String
+    -attTopic: String
+    -attSubTopic: String
+    -attDificulty: EnumDificulty
+    -attType: String
+  }
+  class rqtAssignReviewer <<record>> #F3E8F9;line:6A1B9A;line.bold {
+    -attIdQuestion: int
+    -attReviewer1: String
+    -attReviewer2: String
+  }
+  class rqtChangeStatus <<record>> #F3E8F9;line:6A1B9A;line.bold {
+    -attIdQuestion: int
+    -attStatus: EnumStatus
+  }
+  class rpsUser <<record>> #F3E8F9;line:6A1B9A;line.bold {
+    -attUsername: String
+    -attName: String
+    -attEmail: String
+    -attRole: EnumRole
+  }
+  class rpsQuestion <<record>> #F3E8F9;line:6A1B9A;line.bold {
+    -attId: int
+    -attContext: String
+    -attQuestion: String
+    -attAnswers: List<String>
+    -attCorrectAnswer: String
+    -attBibliography: String
+    -attTopic: String
+    -attSubTopic: String
+    -attDificulty: EnumDificulty
+    -attStatus: EnumStatus
+    -attAuthor: String
+    -attReviewer1: String
+    -attReviewer2: String
+    -attType: String
+  }
+}
+
+clsAppController ..|> IAppController
+clsAppController --> "1" IServiceUser : attIUserService
+clsAppController --> "1" IserviceAdministrator : attIAdministratorService
+clsAppController --> "1" IServiceQuestion : attIQuestionService
+clsAppController ..> rpsUser
+clsAppController ..> rpsQuestion
+clsServiceUser ..|> IServiceUser
+clsServiceAdministrator ..|> IserviceAdministrator
+clsServicesQuestion ..|> IServiceQuestion
+clsServiceSecurity ..|> IServiceSecurity
+clsServiceUser --> "1" IServiceSecurity : attServiceSecurity
+clsServiceAdministrator --> "1" IServiceSecurity : attServiceSecurity
+clsServiceUser --> "1" IRepositoryUser : attRepositoryUser
+clsServiceAdministrator --> "1" IRepositoryUser : attRepositoryUser
+clsServicesQuestion --> "1" clsMicroKernel : attMicroKernel
+clsServicesQuestion --> "1" IRepositoryQuestion : attRepositoryQuestion
+clsServicesQuestion ..> clsValidatorQuestion
+clsMicroKernel --> "1" clsPluginManager : attPluginManager
+clsMicroKernel --> "1" IRepositoryQuestion : attRepositoryQuestion
+clsPluginManager --> "1" clsPluginRegistry : attRegistry
+clsPluginManager ..> IQuestionPlugin
+clsPluginRegistry --> "*" IQuestionPlugin : attPlugins
+plgMultipleChoice ..|> IQuestionPlugin
+IQuestionPlugin ..> clsQuestion
+IRepositoryUser --|> JpaRepository
+IRepositoryQuestion --|> JpaRepository
+IRepositoryUser ..> clsUser
+IRepositoryQuestion ..> clsQuestion
+clsQuestion "*" --> "1" clsUser : attAuthor
+clsQuestion "*" --> "0..2" clsUser : attReviewer1 / attReviewer2
+clsQuestion --> "1" EnumStatus : attStatus
+clsQuestion --> "1" EnumDificulty : attDificulty
+clsUser --> "1" EnumRole : attRole
+IServiceUser ..> rqtValidateUser
+IServiceUser ..> rpsValidateUser
+IServiceUser ..> rqtStudent
+IserviceAdministrator ..> rqtUser
+IServiceQuestion ..> rqtQuestion
+IServiceQuestion ..> rqtUpdateQuestion
+IServiceQuestion ..> rqtAssignReviewer
+IServiceQuestion ..> rqtChangeStatus
+@enduml
