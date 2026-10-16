@@ -1,0 +1,8 @@
+com\dsantiago\proyectolab\pkgServices\clsServiceUserTests.class
+com\dsantiago\proyectolab\pkgServices\clsServiceSecurityTests.class
+com\dsantiago\proyectolab\pkgModels\EnumRoleTests.class
+com\dsantiago\proyectolab\pkgServices\clsServicesQuestionTests.class
+com\dsantiago\proyectolab\pkgUtil\clsValidatorQuestionTests.class
+com\dsantiago\proyectolab\pkgServices\clsServiceAdministratorTests.class
+com\dsantiago\proyectolab\pkgPlugins\plgMultipleChoiceTests.class
+com\dsantiago\proyectolab\ProyectolabApplicationTests.class

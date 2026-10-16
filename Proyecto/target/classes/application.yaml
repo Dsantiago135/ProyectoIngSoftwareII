@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: proyectolab
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/proyectosoftware
+    username: Dsantiago135
+    password: admin
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
