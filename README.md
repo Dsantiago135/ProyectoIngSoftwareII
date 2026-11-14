@@ -10,4 +10,4 @@ La aplicación se organiza en servicios independientes, cada uno encargado de un
 
 El modelo C4 de esta versión se encuentra disponible en Draw.io mediante el siguiente enlace:
 
-[**Ver arquitectura C4 - Versión II**]https://drive.google.com/file/d/186l6JSymGhwhO-eN9q4LTD7VEG902ST9/view?usp=sharing
+[**Ver arquitectura C4 - Versión II**](https://drive.google.com/file/d/186l6JSymGhwhO-eN9q4LTD7VEG902ST9/view?usp=sharing)
