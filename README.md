@@ -10,4 +10,4 @@ La aplicación se organiza en servicios independientes, cada uno encargado de un
 
 El modelo C4 de esta versión se encuentra disponible en Draw.io mediante el siguiente enlace:
 
-[**Ver arquitectura C4 - Versión II**]([https://drive.google.com/file/d/186l6JSymGhwhO-eN9q4LTD7VEG902ST9/view?usp=sharing](https://viewer.diagrams.net/?lightbox=1&highlight=0000ff&nav=1&title=ArquitecturaFinalSaberPro.drawio&dark=auto#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D186l6JSymGhwhO-eN9q4LTD7VEG902ST9%26export%3Ddownload))
+[**Ver arquitectura C4 - Versión II**](https://viewer.diagrams.net/?lightbox=1&highlight=0000ff&nav=1&title=ArquitecturaFinalSaberPro.drawio&dark=auto#Uhttps%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D186l6JSymGhwhO-eN9q4LTD7VEG902ST9%26export%3Ddownload)
