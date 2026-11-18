@@ -1,0 +1,23 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    compatibility-verifier:
+      enabled: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${MCUSER_JWKS_URI:http://mc-user:8080/.well-known/jwks.json}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+services:
+  mc-user: ${MCUSER_URL:http://mc-user:8080}
+  mc-question: ${MCQUESTION_URL:http://mc-question:8080}
+  mc-review: ${MCREVIEW_URL:http://mc-review:8080}
+  mc-audit: ${MCAUDIT_URL:http://mc-audit:8080}

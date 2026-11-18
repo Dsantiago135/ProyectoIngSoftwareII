@@ -1,0 +1,28 @@
+@startuml C3_API_Gateway
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+title C3 API Gateway · 3 piezas y 4 destinos
+
+Person(users, "Usuarios")
+System_Boundary(gatewayBoundary, "API Gateway") {
+    Container_Boundary(gateway, "API Gateway") {
+        Component(security, "SecurityWebFilterChain", "Spring Security WebFlux", "Declara las rutas públicas y la regla de rol de cada ruta. Borra X-User-Id y X-User-Role que traiga el cliente y escribe las suyas con los datos del token.")
+        Component(jwt, "ReactiveJwtDecoder", "OAuth2 Resource Server", "Valida firma y expiración con la clave pública de MCUser (JWKS). Guarda la clave en caché.")
+        Component(routes, "RouteLocator", "Spring Cloud Gateway", "Enruta por prefijo: /api/auth y /api/users a MCUser, /api/questions a MCQuestion, /api/reviews a MCReview y /api/audit (solo GET) a MCAudit.")
+    }
+}
+Container(mcuser, "MCUser", "Spring Boot", "login y JWKS")
+Container(mcquestion, "MCQuestion", "Spring Boot", "preguntas")
+Container(mcreview, "MCReview", "Spring Boot", "revisiones")
+Container(mcaudit, "MCAudit", "Spring Boot", "solo GET")
+
+Rel(users, security, "")
+Rel(security, jwt, "")
+Rel(jwt, routes, "")
+Rel(routes, mcuser, "HTTP/REST")
+Rel(routes, mcquestion, "HTTP/REST")
+Rel(routes, mcreview, "HTTP/REST")
+Rel(routes, mcaudit, "HTTP/REST")
+Rel_D(mcuser, jwt, "obtiene la clave pública (JWKS)", "JWKS")
+
+SHOW_LEGEND()
+@enduml

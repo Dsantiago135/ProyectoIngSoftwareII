@@ -1,0 +1,152 @@
+services:
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    ports:
+      - "${GATEWAY_PORT:-8080}:8080"
+    environment:
+      MCUSER_JWKS_URI: ${MCUSER_JWKS_URI:-http://mc-user:8080/.well-known/jwks.json}
+    depends_on:
+      mc-user: { condition: service_started }
+      mc-question: { condition: service_started }
+      mc-review: { condition: service_started }
+      mc-audit: { condition: service_started }
+    networks: [saberpro-net]
+
+  mc-user:
+    build:
+      context: .
+      dockerfile: mc-user/Dockerfile
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/DB_USER
+      DB_USERNAME: mcuser
+      DB_PASSWORD: ${MCUSER_DB_PASSWORD:-mcuser-dev}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME:-saberpro}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-saberpro-dev}
+      JWT_PRIVATE_KEY: /run/secrets/jwt/private.pem
+      JWT_PUBLIC_KEY: /run/secrets/jwt/public.pem
+      SABERPRO_ADMIN_USERNAME: ${SABERPRO_ADMIN_USERNAME:-}
+      SABERPRO_ADMIN_PASSWORD: ${SABERPRO_ADMIN_PASSWORD:-}
+      SABERPRO_ADMIN_EMAIL: ${SABERPRO_ADMIN_EMAIL:-}
+    volumes:
+      - ./infra/keys:/run/secrets/jwt:ro
+    depends_on:
+      postgres: { condition: service_healthy }
+      rabbitmq: { condition: service_healthy }
+    networks: [saberpro-net]
+
+  mc-question:
+    build:
+      context: .
+      dockerfile: mc-question/Dockerfile
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/DB_QUESTION
+      DB_USERNAME: mcquestion
+      DB_PASSWORD: ${MCQUESTION_DB_PASSWORD:-mcquestion-dev}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME:-saberpro}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-saberpro-dev}
+    depends_on:
+      postgres: { condition: service_healthy }
+      rabbitmq: { condition: service_healthy }
+    networks: [saberpro-net]
+
+  mc-review:
+    build:
+      context: .
+      dockerfile: mc-review/Dockerfile
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/DB_REVIEW
+      DB_USERNAME: mcreview
+      DB_PASSWORD: ${MCREVIEW_DB_PASSWORD:-mcreview-dev}
+      MCQUESTION_URL: http://mc-question:8080
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME:-saberpro}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-saberpro-dev}
+    depends_on:
+      postgres: { condition: service_healthy }
+      rabbitmq: { condition: service_healthy }
+    networks: [saberpro-net]
+
+  mc-audit:
+    build:
+      context: .
+      dockerfile: mc-audit/Dockerfile
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/DB_AUDIT
+      DB_USERNAME: mcaudit
+      DB_PASSWORD: ${MCAUDIT_DB_PASSWORD:-mcaudit-dev}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME:-saberpro}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-saberpro-dev}
+    depends_on:
+      postgres: { condition: service_healthy }
+      rabbitmq: { condition: service_healthy }
+    networks: [saberpro-net]
+
+  mc-messaging:
+    build:
+      context: .
+      dockerfile: mc-messaging/Dockerfile
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME:-saberpro}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-saberpro-dev}
+      MCUSER_URL: http://mc-user:8080
+      SMTP_HOST: ${SMTP_HOST:-localhost}
+      SMTP_PORT: ${SMTP_PORT:-25}
+      SMTP_USERNAME: ${SMTP_USERNAME:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_AUTH: ${SMTP_AUTH:-false}
+      SMTP_STARTTLS: ${SMTP_STARTTLS:-false}
+      EMAIL_FROM: ${EMAIL_FROM:-no-reply@saberpro.local}
+    depends_on:
+      rabbitmq: { condition: service_healthy }
+    networks: [saberpro-net]
+
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: saberpro_admin
+      POSTGRES_PASSWORD: ${POSTGRES_ADMIN_PASSWORD:-local-admin-only}
+      POSTGRES_DB: postgres
+      MCUSER_DB_PASSWORD: ${MCUSER_DB_PASSWORD:-mcuser-dev}
+      MCQUESTION_DB_PASSWORD: ${MCQUESTION_DB_PASSWORD:-mcquestion-dev}
+      MCREVIEW_DB_PASSWORD: ${MCREVIEW_DB_PASSWORD:-mcreview-dev}
+      MCAUDIT_DB_PASSWORD: ${MCAUDIT_DB_PASSWORD:-mcaudit-dev}
+    volumes:
+      - postgres-data:/var/lib/postgresql
+      - ./infra/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U saberpro_admin -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks: [saberpro-net]
+
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USERNAME:-saberpro}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-saberpro-dev}
+    ports:
+      - "${RABBITMQ_UI_PORT:-15672}:15672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks: [saberpro-net]
+
+volumes:
+  postgres-data:
+  rabbitmq-data:
+
+networks:
+  saberpro-net:
+    name: saberpro-net
+    driver: bridge

@@ -1,0 +1,36 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: mc-user
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/DB_USER}
+    username: ${DB_USERNAME:mcuser}
+    password: ${DB_PASSWORD:mcuser-dev}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:saberpro}
+    password: ${RABBITMQ_PASSWORD:saberpro-dev}
+security:
+  jwt:
+    private-key: ${JWT_PRIVATE_KEY:/run/secrets/jwt/private.pem}
+    public-key: ${JWT_PUBLIC_KEY:/run/secrets/jwt/public.pem}
+    issuer: ${JWT_ISSUER:saberpro-user}
+    lifetime: PT24H
+bootstrap:
+  admin:
+    username: ${SABERPRO_ADMIN_USERNAME:}
+    password: ${SABERPRO_ADMIN_PASSWORD:}
+    email: ${SABERPRO_ADMIN_EMAIL:}
+messaging:
+  exchange: ${RABBITMQ_EXCHANGE:app.events}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health

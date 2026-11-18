@@ -1,0 +1,28 @@
+@startuml Ciclo_vida_pregunta
+title Ciclo de vida de una pregunta · 7 estados
+left to right direction
+skinparam state {
+  BackgroundColor white
+  BorderColor #c9c8c0
+  FontColor #222222
+}
+state BORRADOR #DCEBFA
+state PENDIENTE_REVISION
+state EN_REVISION
+state RECHAZADA
+state APROBADA
+state PUBLICADA
+state ARCHIVADA
+
+[*] --> BORRADOR
+BORRADOR --> PENDIENTE_REVISION : AUTHOR envía
+PENDIENTE_REVISION --> EN_REVISION : 1ª revisión
+EN_REVISION --> RECHAZADA : 2 revisiones, alguna rechaza
+EN_REVISION --> APROBADA : 2 aprueban
+RECHAZADA --> BORRADOR : AUTHOR reabre
+APROBADA --> PUBLICADA : ADMIN publica
+PUBLICADA --> ARCHIVADA : ADMIN archiva
+note top of BORRADOR
+Único estado editable
+end note
+@enduml

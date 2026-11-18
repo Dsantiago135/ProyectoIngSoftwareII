@@ -1,0 +1,23 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: mc-question
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/DB_QUESTION}
+    username: ${DB_USERNAME:mcquestion}
+    password: ${DB_PASSWORD:mcquestion-dev}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:saberpro}
+    password: ${RABBITMQ_PASSWORD:saberpro-dev}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health

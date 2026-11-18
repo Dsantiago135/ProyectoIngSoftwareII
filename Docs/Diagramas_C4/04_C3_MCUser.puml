@@ -1,0 +1,52 @@
+@startuml C3_MCUser
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+title C3 MCUser · 2 entradas, 4 salidas
+
+Container(gateway, "API Gateway", "Spring Cloud Gateway")
+System_Boundary(mcuser, "MCUser") {
+    Container_Boundary(infra1, "Infra") {
+        Component(userController, "UserRestController", "Spring Web")
+        Component(jwksController, "JwksRestController", "Spring Web")
+    }
+    Container_Boundary(app1, "Aplicación") {
+        Component(userUseCase, "UserUseCase", "Java")
+        Component(publicKeyUseCase, "PublicKeyUseCase", "Java")
+    }
+    Container_Boundary(domain, "Dominio") {
+        Component(userService, "UserService", "Java")
+        Component(user, "User", "Java")
+    }
+    Container_Boundary(app2, "Aplicación") {
+        Component(userRepositoryPort, "UserRepositoryPort", "Java")
+        Component(tokenPort, "TokenPort", "Java")
+        Component(passwordPort, "PasswordHashPort", "Java")
+        Component(eventPort, "EventPublisherPort", "Java")
+    }
+    Container_Boundary(infra2, "Infra") {
+        Component(userJpa, "UserJpaAdapter", "Spring Data JPA")
+        Component(jwtAdapter, "JwtAdapter", "Spring Security")
+        Component(bcryptAdapter, "BCryptAdapter", "Spring Crypto")
+        Component(rabbitAdapter, "RabbitAdapter", "Spring AMQP")
+    }
+}
+ContainerDb(dbuser, "DB_USER", "PostgreSQL")
+ContainerQueue(rabbit, "RabbitMQ", "AMQP")
+
+Rel(gateway, userController, "")
+Rel(gateway, jwksController, "")
+Rel(userController, userUseCase, "")
+Rel(jwksController, publicKeyUseCase, "")
+Rel(userUseCase, userService, "")
+Rel(publicKeyUseCase, userService, "")
+Rel(userService, user, "")
+Rel(userService, userRepositoryPort, "")
+Rel(userService, tokenPort, "")
+Rel(userService, passwordPort, "")
+Rel(userService, eventPort, "")
+Rel(userRepositoryPort, userJpa, "")
+Rel(tokenPort, jwtAdapter, "")
+Rel(passwordPort, bcryptAdapter, "")
+Rel(eventPort, rabbitAdapter, "")
+Rel(userJpa, dbuser, "")
+Rel(rabbitAdapter, rabbit, "")
+@enduml
