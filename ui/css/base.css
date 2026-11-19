@@ -1,0 +1,50 @@
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+  html {
+    min-width: var(--layout-min-width);
+    min-height: 100%;
+    background: var(--color-page);
+    color: var(--color-text);
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-normal);
+    color-scheme: dark;
+  }
+  body {
+    min-width: var(--layout-min-width);
+    min-height: 100vh;
+    margin: var(--space-0);
+    background: radial-gradient(ellipse at 82% 0%, color-mix(in srgb, var(--purple-600) 25%, var(--transparent)), var(--transparent) 42%), linear-gradient(145deg, var(--color-page), var(--purple-900));
+  }
+  button, input, select, textarea { color: inherit; font: inherit; }
+  button { cursor: pointer; }
+  button:disabled, input:disabled, select:disabled, textarea:disabled { cursor: not-allowed; }
+  a { color: var(--color-info); text-decoration-thickness: var(--border-width-1); text-underline-offset: var(--space-1); }
+  :focus-visible { outline: var(--border-width-2) solid var(--color-info); outline-offset: var(--space-1); box-shadow: var(--glow-focus); }
+  h1, h2, h3, p { margin-block: var(--space-0) var(--space-4); }
+  h1, h2, h3 { line-height: var(--line-height-tight); }
+  h1 { font-size: var(--font-size-display); font-weight: var(--font-weight-bold); }
+  h2 { font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); }
+  h3 { font-size: var(--font-size-lg); font-weight: var(--font-weight-medium); }
+  img, svg { display: block; max-width: 100%; }
+  [hidden] { display: none !important; }
+  .sr-only {
+    position: absolute;
+    width: var(--space-1);
+    height: var(--space-1);
+    padding: var(--space-0);
+    margin: calc(-1 * var(--space-1));
+    overflow: hidden;
+    clip: rect(var(--space-0), var(--space-0), var(--space-0), var(--space-0));
+    white-space: nowrap;
+    border: var(--border-width-1) solid var(--transparent);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      scroll-behavior: auto !important;
+      animation-duration: var(--duration-fast) !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: var(--duration-fast) !important;
+    }
+  }
+}

@@ -21,3 +21,5 @@ services:
   mc-question: ${MCQUESTION_URL:http://mc-question:8080}
   mc-review: ${MCREVIEW_URL:http://mc-review:8080}
   mc-audit: ${MCAUDIT_URL:http://mc-audit:8080}
+ui:
+  allowed-origin: ${UI_ALLOWED_ORIGIN:http://localhost:5500}

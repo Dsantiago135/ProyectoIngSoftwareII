@@ -13,7 +13,6 @@ import co.edu.unicauca.saberpro.review.domain.ports.inbound.IReviewUseCase;
 import co.edu.unicauca.saberpro.review.domain.ports.outbound.IEventPublisherPort;
 import co.edu.unicauca.saberpro.review.domain.ports.outbound.IQuestionClientPort;
 import co.edu.unicauca.saberpro.review.domain.ports.outbound.IReviewRepositoryPort;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

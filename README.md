@@ -1,5 +1,11 @@
 # Saber Pro - Versión II
 
+## Interfaz web
+
+La UI está en [ui](ui/README.md) y usa HTML, CSS y módulos JavaScript nativos. En Windows, inicia el servidor estático con `powershell -ExecutionPolicy Bypass -File ui/serve.ps1` y abre `http://localhost:5500`. El Gateway permite ese origen mediante `UI_ALLOWED_ORIGIN`.
+
+La UI no inventa endpoints. En particular, el listado/filtro de preguntas, edición, reapertura, publicación, archivo y cola automática de revisión requieren nuevas rutas backend antes de habilitar sus acciones.
+
 ## Descripción
 
 Esta segunda versión de **Saber Pro** presenta un cambio en su arquitectura, pasando de un enfoque monolítico a una arquitectura basada en **microservicios**.

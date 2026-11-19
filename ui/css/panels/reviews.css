@@ -1,0 +1,9 @@
+@layer panels {
+  .reviews-panel-question { display: grid; gap: var(--space-4); }
+  .reviews-panel-read-only { padding: var(--space-4); border: var(--border-default); border-radius: var(--radius-lg); background: var(--color-surface-raised); }
+  .reviews-panel-review-list { display: grid; gap: var(--space-3); }
+  .reviews-panel-review { padding: var(--space-3); border-left: var(--border-width-2) solid var(--color-primary); background: var(--color-surface); }
+  .reviews-panel-content { display: grid; gap: var(--space-5); }
+  .reviews-panel-read-only h3 { margin-bottom: var(--space-2); color: var(--color-info); font-size: var(--font-size-sm); }
+  .reviews-panel-read-only p { overflow-wrap: anywhere; }
+}
