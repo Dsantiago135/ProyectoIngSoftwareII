@@ -1,0 +1,5 @@
+@layer panels {
+  .audit-panel-detail { max-height: 60vh; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .audit-panel-action { overflow-wrap: anywhere; }
+  .audit-panel .filter-bar { grid-template-columns: repeat(auto-fit, minmax(var(--size-filter-min), 1fr)); }
+}

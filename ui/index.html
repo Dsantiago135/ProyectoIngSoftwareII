@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="api-base-url" content="http://localhost:8080">
+    <title>Saber Pro</title>
+    <link rel="stylesheet" href="css/tokens.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/panels/users.css">
+    <link rel="stylesheet" href="css/panels/questions.css">
+    <link rel="stylesheet" href="css/panels/reviews.css">
+    <link rel="stylesheet" href="css/panels/audit.css">
+  </head>
+  <body>
+    <main id="login-view" class="login-view" aria-labelledby="login-title">
+      <section class="login-card">
+        <div class="login-card-mascot" id="login-mascot"></div>
+        <p class="page-heading-eyebrow">Preparación académica</p>
+        <h1 id="login-title">Saber Pro</h1>
+        <p class="page-subtitle">Ingresa para continuar con tu espacio de estudio.</p>
+        <form id="login-form" class="login-form" novalidate>
+          <label class="field">
+            <span class="field-label">Usuario</span>
+            <input class="field-control" name="username" autocomplete="username" required>
+          </label>
+          <label class="field">
+            <span class="field-label">Contraseña</span>
+            <input class="field-control" name="password" type="password" autocomplete="current-password" required>
+          </label>
+          <p id="login-error" class="login-error" role="alert" hidden></p>
+          <button class="btn btn-primary login-form-submit" type="submit">Ingresar</button>
+        </form>
+      </section>
+    </main>
+
+    <div id="app-view" class="app-shell" hidden>
+      <header class="app-header">
+        <a class="brand" href="#/" aria-label="Saber Pro, inicio">
+          <span class="brand-mark" aria-hidden="true">SP</span>
+          <span>Saber Pro</span>
+        </a>
+        <div class="user-cluster">
+          <span id="header-username" class="header-username"></span>
+          <span id="header-role" class="badge"></span>
+          <span id="header-avatar" class="avatar" aria-hidden="true"></span>
+        </div>
+      </header>
+      <div class="app-body">
+        <nav class="app-nav" aria-label="Navegación principal">
+          <p class="app-nav-caption">Espacio de trabajo</p>
+          <ul id="app-menu" class="app-nav-list"></ul>
+          <div class="app-nav-footer">
+            <div id="welcome-mascot" class="welcome-mascot"></div>
+            <p class="app-nav-welcome">Un paso más cerca de tu meta.</p>
+          </div>
+        </nav>
+        <main id="app-main" class="app-main" tabindex="-1" aria-live="polite"></main>
+      </div>
+    </div>
+
+    <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="false"></div>
+    <template id="mascot-template">
+      <svg class="mascot mascot-happy" viewBox="0 0 100 100" role="img" aria-label="Mascota Saber Pro">
+        <path class="mascot-outline" d="M50 10c-21 0-37 16-37 37v20c0 13 10 23 23 23h28c13 0 23-10 23-23V47C87 26 71 10 50 10Z"></path>
+        <path class="mascot-outline" d="m18 39-9-9 4 22 8-2m61-11 9-9-4 22-8-2"></path>
+        <ellipse class="mascot-eye" cx="37" cy="47" rx="6" ry="8"></ellipse>
+        <ellipse class="mascot-eye" cx="63" cy="47" rx="6" ry="8"></ellipse>
+        <circle class="mascot-cheek" cx="27" cy="60" r="5"></circle>
+        <circle class="mascot-cheek" cx="73" cy="60" r="5"></circle>
+        <path class="mascot-mouth" d="M42 60q8 8 16 0"></path>
+        <path class="mascot-outline" d="M31 88v7m38-7v7" stroke-linecap="round"></path>
+      </svg>
+    </template>
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>

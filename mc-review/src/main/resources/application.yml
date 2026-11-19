@@ -1,0 +1,27 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: mc-review
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/DB_REVIEW}
+    username: ${DB_USERNAME:mcreview}
+    password: ${DB_PASSWORD:mcreview-dev}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:saberpro}
+    password: ${RABBITMQ_PASSWORD:saberpro-dev}
+services:
+  mc-question: ${MCQUESTION_URL:http://localhost:8080}
+messaging:
+  exchange: ${RABBITMQ_EXCHANGE:app.events}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health

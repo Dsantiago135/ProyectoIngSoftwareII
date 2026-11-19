@@ -1,0 +1,45 @@
+@startuml C3_MCReview
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+title C3 MCReview · 3 salidas
+
+Container(gateway, "API Gateway", "Spring Cloud Gateway")
+System_Boundary(mcreview, "MCReview") {
+    Container_Boundary(infra1, "Infra") {
+        Component(controller, "ReviewRestController", "Spring Web")
+    }
+    Container_Boundary(app1, "Aplicación") {
+        Component(useCase, "ReviewUseCase", "Java")
+    }
+    Container_Boundary(domain, "Dominio") {
+        Component(review, "Review", "Java")
+        Component(service, "ReviewService", "Java")
+    }
+    Container_Boundary(app2, "Aplicación") {
+        Component(repositoryPort, "ReviewRepositoryPort", "Java")
+        Component(questionPort, "QuestionClientPort", "Java")
+        Component(eventPort, "EventPublisherPort", "Java")
+    }
+    Container_Boundary(infra2, "Infra") {
+        Component(jpaAdapter, "ReviewJpaAdapter", "Spring Data JPA")
+        Component(questionAdapter, "QuestionRestAdapter", "Spring RestClient")
+        Component(rabbitAdapter, "RabbitAdapter", "Spring AMQP")
+    }
+}
+ContainerDb(dbreview, "DB_REVIEW", "PostgreSQL")
+Container(mcquestion, "MCQuestion", "Spring Boot")
+ContainerQueue(rabbit, "RabbitMQ", "AMQP")
+
+Rel(gateway, controller, "")
+Rel(controller, useCase, "")
+Rel(useCase, service, "")
+Rel(service, review, "")
+Rel(service, repositoryPort, "")
+Rel(service, questionPort, "")
+Rel(service, eventPort, "")
+Rel(repositoryPort, jpaAdapter, "")
+Rel(questionPort, questionAdapter, "")
+Rel(eventPort, rabbitAdapter, "")
+Rel(jpaAdapter, dbreview, "")
+Rel(questionAdapter, mcquestion, "REST síncrono")
+Rel(rabbitAdapter, rabbit, "")
+@enduml
