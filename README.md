@@ -10,4 +10,4 @@ Los modelos C4 están disponibles en su versión png y .puml para su extracción
 
 [**Ver arquitectura C4 - Versión II**]()
 
-[**Documento**](https://docs.google.com/document/d/1AmxTNa1eKVW7fapF0oKqBbLF0SnMsPxm/edit?usp=sharing&ouid=101853165330918560541&rtpof=true&sd=true)
+[**Documento**](https://docs.google.com/document/d/1b8I6uvxAnrW4KGMusG_RBhUbAvVH33y6l-tA3eAKrc4/edit?usp=sharing)
