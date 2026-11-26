@@ -1,6 +1,5 @@
 package co.edu.unicauca.saberpro.user.domain.exception;
 
-/** Excepción de negocio del microservicio de usuarios. */
 public class clsUserException extends RuntimeException {
     private final int attStatus;
     public clsUserException(String prmMessage) { this(400, prmMessage); }

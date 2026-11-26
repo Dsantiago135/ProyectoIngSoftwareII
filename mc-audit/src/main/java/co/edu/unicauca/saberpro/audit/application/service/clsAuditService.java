@@ -11,7 +11,6 @@ import co.edu.unicauca.saberpro.audit.domain.ports.outbound.IAuditRepositoryPort
 import tools.jackson.databind.ObjectMapper;
 import java.util.UUID;
 
-/** Implementa el registro idempotente y las consultas de eventos auditables. */
 public class clsAuditService implements IRecordAuditUseCase, IQueryAuditUseCase {
     private final IAuditRepositoryPort attRepository;
     private final ObjectMapper attMapper;

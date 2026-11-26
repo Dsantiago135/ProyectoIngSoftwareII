@@ -5,7 +5,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
-/** Puerto de salida para emitir JWT y consultar el documento JWKS. */
 public interface ITokenPort {
     record rpsToken(String token, Instant expiresAt) { }
     record rpsJwks(List<Map<String, Object>> keys) { }

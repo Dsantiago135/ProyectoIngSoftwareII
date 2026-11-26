@@ -8,7 +8,6 @@ import jakarta.persistence.UniqueConstraint;
 import java.time.Instant;
 import java.util.UUID;
 
-/** Entidad JPA inmutable a nivel de puerto; no expone operaciones de actualización. */
 @Entity
 @Table(name = "audit_records", uniqueConstraints = @UniqueConstraint(columnNames = "eventId"))
 public class clsAuditEntity {

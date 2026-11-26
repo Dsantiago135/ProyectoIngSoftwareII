@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-/** Puerto de persistencia de usuarios. */
 public interface IUserRepositoryPort {
     clsUser opSave(clsUser prmUser);
     Optional<clsUser> opFindById(UUID prmId);

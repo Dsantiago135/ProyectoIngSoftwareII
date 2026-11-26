@@ -11,7 +11,6 @@ import jakarta.persistence.UniqueConstraint;
 import java.time.Instant;
 import java.util.UUID;
 
-/** Entidad JPA de revisión, con unicidad por pregunta y revisor. */
 @Entity
 @Table(name = "reviews", uniqueConstraints = @UniqueConstraint(columnNames = {"questionId", "reviewerId"}))
 public class clsReviewEntity {

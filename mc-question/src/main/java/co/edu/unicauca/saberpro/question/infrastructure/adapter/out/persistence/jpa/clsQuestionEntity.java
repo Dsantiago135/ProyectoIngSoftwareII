@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-/** Entidad JPA de infraestructura, separada del agregado de dominio. */
 @Entity
 @Table(name = "questions")
 public class clsQuestionEntity {
@@ -63,7 +62,6 @@ public class clsQuestionEntity {
     protected clsQuestionEntity() {
     }
 
-    /** Construye la entidad de persistencia a partir de los datos mapeados. */
     public clsQuestionEntity(UUID prmId, UUID prmAuthorId, enmContextType prmContextType,
                              String prmContext, String prmMediaUrl, String prmDirectQuestion,
                              List<String> prmDistractors, String prmCorrectAnswer, String prmJustification,

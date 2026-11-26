@@ -17,14 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Adaptador HTTP para la creación y consulta de revisiones. */
 @RestController
 @RequestMapping("/api/reviews")
 public class ReviewRestController {
     private final IReviewUseCase attReviewUseCase;
     public ReviewRestController(IReviewUseCase prmReviewUseCase) { attReviewUseCase = prmReviewUseCase; }
 
-    /** Registra una decisión del revisor autenticado. */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public rpsReview opCreate(@RequestBody rqtReview prmRequest, @RequestHeader("X-User-Id") UUID prmReviewerId) {
@@ -33,14 +31,12 @@ public class ReviewRestController {
                 prmReviewerId));
     }
 
-    /** Consulta una revisión después de validar los permisos del actor. */
     @GetMapping("/{id}")
     public rpsReview opFindById(@PathVariable UUID id, @RequestHeader("X-User-Id") UUID prmActorId,
                                 @RequestHeader("X-User-Role") String prmActorRole) {
         return opToResponse(attReviewUseCase.opFindById(id, prmActorId, prmActorRole));
     }
 
-    /** Consulta las revisiones de una pregunta después de validar propiedad/rol. */
     @GetMapping
     public List<rpsReview> opFindByQuestionId(@RequestParam UUID questionId,
                                               @RequestHeader("X-User-Id") UUID prmActorId,

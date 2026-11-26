@@ -12,14 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Adaptador de consulta de auditoría, sin endpoints de escritura. */
 @RestController
 @RequestMapping("/api/audit")
 public class AuditRestController {
     private final IQueryAuditUseCase attQueryUseCase;
     public AuditRestController(IQueryAuditUseCase prmQueryUseCase) { attQueryUseCase = prmQueryUseCase; }
 
-    /** Busca registros por actor, entidad y rango de fechas con paginación. */
     @GetMapping
     public rpsPage<clsAuditRecord> opSearch(@RequestParam(required = false) UUID actorId,
             @RequestParam(required = false) String entityType, @RequestParam(required = false) UUID entityId,
@@ -28,7 +26,6 @@ public class AuditRestController {
         return attQueryUseCase.opSearch(new rqtAuditFilter(actorId, entityType, entityId, from, to), page, size);
     }
 
-    /** Consulta un registro por su identificador de auditoría. */
     @GetMapping("/{id}")
     public clsAuditRecord opFindById(@PathVariable UUID id) { return attQueryUseCase.opFindById(id); }
 }

@@ -7,7 +7,6 @@ import co.edu.unicauca.saberpro.messaging.domain.ports.outbound.IRecipientLookup
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/** Raíz de composición de MCMessaging. */
 @Configuration
 public class MessagingConfiguration {
     @Bean

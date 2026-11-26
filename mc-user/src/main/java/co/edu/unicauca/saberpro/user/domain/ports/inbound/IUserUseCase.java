@@ -6,7 +6,6 @@ import co.edu.unicauca.saberpro.user.domain.ports.outbound.ITokenPort.rpsToken;
 import java.util.List;
 import java.util.UUID;
 
-/** Puerto de entrada para administración de usuarios y autenticación. */
 public interface IUserUseCase {
     record rqtUser(String username, String password, String email, enmRole role) { }
     record rqtLogin(String username, String password) { }

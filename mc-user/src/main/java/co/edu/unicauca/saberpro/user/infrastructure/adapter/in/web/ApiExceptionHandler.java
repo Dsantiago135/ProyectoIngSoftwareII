@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-/** Convierte errores de usuario a respuestas HTTP en español. */
 @RestControllerAdvice
 public class ApiExceptionHandler {
     @ExceptionHandler(clsUserException.class)

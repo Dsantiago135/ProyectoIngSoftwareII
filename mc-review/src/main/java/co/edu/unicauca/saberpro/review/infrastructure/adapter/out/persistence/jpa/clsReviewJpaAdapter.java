@@ -8,7 +8,6 @@ import java.util.UUID;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 
-/** Adaptador JPA para el puerto de revisiones. */
 @Repository
 public class clsReviewJpaAdapter implements IReviewRepositoryPort {
     private final SpringDataReviewRepository attRepository;

@@ -6,8 +6,6 @@ import co.edu.unicauca.saberpro.question.domain.model.clsQuestion.enmQuestionSta
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
-
-/** Respuesta HTTP con los datos públicos de una pregunta. */
 public record rpsQuestion(UUID id, UUID authorId, enmContextType contextType, String context,
                           String mediaUrl, String directQuestion, List<String> distractors,
                           String correctAnswer, String justification, String bibliography,

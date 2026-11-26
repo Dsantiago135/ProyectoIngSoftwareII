@@ -12,7 +12,6 @@ import co.edu.unicauca.saberpro.review.domain.ports.outbound.IReviewRepositoryPo
 import java.util.List;
 import java.util.UUID;
 
-/** Orquesta las decisiones de revisión y su sincronización con MCQuestion. */
 public class clsReviewService implements IReviewUseCase {
     private final IReviewRepositoryPort attRepository;
     private final IQuestionClientPort attQuestionClient;

@@ -23,42 +23,35 @@ public class UserRestController {
     private final IUserUseCase attUserUseCase;
     public UserRestController(IUserUseCase prmUserUseCase) { attUserUseCase = prmUserUseCase; }
 
-    /** Valida las credenciales y devuelve un JWT de acceso. */
     @PostMapping("/api/auth/login")
     public rpsToken opLogin(@RequestBody rqtLogin prmRequest) {
         return attUserUseCase.opLogin(new IUserUseCase.rqtLogin(prmRequest.username(), prmRequest.password()));
     }
 
-    /** Registra un usuario y genera un evento de bienvenida. */
     @PostMapping("/api/users")
     @ResponseStatus(HttpStatus.CREATED)
     public rpsUser opRegister(@RequestBody rqtUser prmRequest, @RequestHeader("X-User-Id") UUID prmActorId) {
         return attUserUseCase.opRegister(opToRequest(prmRequest), prmActorId);
     }
 
-    /** Lista los usuarios registrados. */
     @GetMapping("/api/users")
     public List<rpsUser> opFindAll() { return attUserUseCase.opFindAll(); }
 
-    /** Consulta un usuario por identificador. */
     @GetMapping("/api/users/{id}")
     public rpsUser opFindById(@PathVariable UUID id) { return attUserUseCase.opFindById(id); }
 
-    /** Actualiza correo, rol y opcionalmente la contraseña. */
     @PutMapping("/api/users/{id}")
     public rpsUser opUpdate(@PathVariable UUID id, @RequestBody rqtUser prmRequest,
                             @RequestHeader("X-User-Id") UUID prmActorId) {
         return attUserUseCase.opUpdate(id, opToRequest(prmRequest), prmActorId);
     }
 
-    /** Desactiva una cuenta sin borrar sus datos. */
     @PatchMapping("/api/users/{id}/deactivate")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void opDeactivate(@PathVariable UUID id, @RequestHeader("X-User-Id") UUID prmActorId) {
         attUserUseCase.opDeactivate(id, prmActorId);
     }
 
-    /** Consulta un correo para notificaciones internas de MCMessaging. */
     @GetMapping("/internal/users/{id}/email")
     public rpsRecipientEmail opFindEmail(@PathVariable UUID id) {
         return new rpsRecipientEmail(attUserUseCase.opFindEmail(id));
@@ -68,6 +61,7 @@ public class UserRestController {
         return new IUserUseCase.rqtUser(prmRequest.username(), prmRequest.password(), prmRequest.email(), prmRequest.role());
     }
 
+    //responses y request//
     public record rqtLogin(String username, String password) { }
     public record rqtUser(String username, String password, String email, enmRole role) { }
     public record rpsRecipientEmail(String email) { }

@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
-/** Adaptador JPA que implementa el puerto de persistencia de preguntas. */
 @Repository
 public class clsQuestionJpaAdapter implements IQuestionRepositoryPort {
     private final SpringDataQuestionRepository attRepository;

@@ -8,7 +8,6 @@ import co.edu.unicauca.saberpro.review.domain.ports.outbound.IReviewRepositoryPo
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/** Raíz de composición de MCReview. */
 @Configuration
 public class ReviewConfiguration {
     @Bean

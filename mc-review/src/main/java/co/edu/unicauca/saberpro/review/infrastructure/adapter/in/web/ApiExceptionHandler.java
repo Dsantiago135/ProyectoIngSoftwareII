@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-/** Traduce los errores de MCReview a códigos HTTP definidos por la API. */
 @RestControllerAdvice
 public class ApiExceptionHandler {
     @ExceptionHandler(clsReviewException.class)

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import tools.jackson.databind.ObjectMapper;
 
-/** Adaptador RabbitMQ que serializa eventos y no interrumpe el flujo de negocio. */
 @Component
 public class clsRabbitAdapter implements IEventPublisherPort {
     private static final Logger LOGGER = LoggerFactory.getLogger(clsRabbitAdapter.class);

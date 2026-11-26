@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-/** Repositorio de consultas y alta para MCAudit. */
+
 public interface SpringDataAuditRepository extends JpaRepository<clsAuditEntity, UUID>,
         JpaSpecificationExecutor<clsAuditEntity> {
     boolean existsByEventId(UUID eventId);

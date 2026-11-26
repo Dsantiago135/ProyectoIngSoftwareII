@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Adaptador REST para solicitudes y respuestas del microservicio de preguntas. */
 @RestController
 @RequestMapping("/api/questions")
 public class QuestionRestController {

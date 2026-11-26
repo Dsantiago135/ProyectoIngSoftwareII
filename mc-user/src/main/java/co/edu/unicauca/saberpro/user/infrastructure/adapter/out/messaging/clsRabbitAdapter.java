@@ -48,6 +48,11 @@ public class clsRabbitAdapter implements IEventPublisherPort {
             Map.entry("variables", prmVariables)));
     }
 
+    /**
+     * Envía en evento a una cola de RabbitMQ
+     * @param prmRoutingKey Cola a enviar
+     * @param prmEvent Evento a enviar
+    */
     private void opPublish(String prmRoutingKey, Map<String, Object> prmEvent) {
         try {
             attRabbitTemplate.convertAndSend(attExchange, prmRoutingKey, attMapper.writeValueAsString(prmEvent));

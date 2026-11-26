@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
-/** Adaptador JPA que implementa el puerto de usuarios. */
+/** Adaptador JPA que implementa el puerto de usuarios. Usa de la "conexión" a la base de datos*/
 @Repository
 public class clsUserJpaAdapter implements IUserRepositoryPort {
     private final SpringDataUserRepository attRepository;

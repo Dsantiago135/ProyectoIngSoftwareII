@@ -10,7 +10,7 @@ import jakarta.persistence.Table;
 import java.time.Instant;
 import java.util.UUID;
 
-/** Entidad JPA de usuarios separada del modelo de dominio. */
+/** Entidad JPA*/
 @Entity
 @Table(name = "users")
 public class clsUserEntity {

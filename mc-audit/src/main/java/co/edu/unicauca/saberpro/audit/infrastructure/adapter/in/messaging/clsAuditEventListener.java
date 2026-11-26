@@ -10,7 +10,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 import tools.jackson.databind.ObjectMapper;
 
-/** Convierte mensajes JSON de RabbitMQ y los registra una sola vez. */
 @Component
 public class clsAuditEventListener {
     private static final Logger LOGGER = LoggerFactory.getLogger(clsAuditEventListener.class);

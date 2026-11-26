@@ -10,7 +10,6 @@ import org.springframework.amqp.core.TopicExchange;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/** Declara la cola de auditoría durable y su cola de mensajes muertos. */
 @Configuration
 public class AuditRabbitTopologyConfiguration {
     @Bean

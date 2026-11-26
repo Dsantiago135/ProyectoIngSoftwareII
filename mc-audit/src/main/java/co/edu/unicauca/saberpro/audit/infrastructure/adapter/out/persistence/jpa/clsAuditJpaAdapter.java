@@ -13,7 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
-/** Adaptador JPA con inserción y búsquedas por filtros opcionales. */
 @Repository
 public class clsAuditJpaAdapter implements IAuditRepositoryPort {
     private final SpringDataAuditRepository attRepository;
