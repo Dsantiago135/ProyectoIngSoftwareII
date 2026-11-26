@@ -8,6 +8,4 @@ Cada microservicio está diseñado con un modelo hexagonal permitiendo un encaps
 ## Diagrama de arquitectura C4
 Los modelos C4 están disponibles en su versión png y .puml para su extracción y manipulación.
 
-[**Ver arquitectura C4 - Versión II**]()
-
 [**Documento**](https://docs.google.com/document/d/1b8I6uvxAnrW4KGMusG_RBhUbAvVH33y6l-tA3eAKrc4/edit?usp=sharing)
