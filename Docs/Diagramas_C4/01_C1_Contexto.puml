@@ -1,0 +1,22 @@
+@startuml C1_Contexto
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+title C1 · 5 roles, 1 sistema, 1 proveedor externo
+
+Person(admin, "ADMIN", "Gestiona usuarios")
+Person(author, "AUTHOR", "Crea y edita preguntas")
+Person(reviewer, "REVIEWER", "Revisa preguntas")
+Person(student, "STUDENT", "Responde quizzes")
+Person(teacher, "TEACHER", "Quizzes y reportes")
+
+System(saberpro, "Aplicación Saber Pro", "Gestión y preparación Saber Pro")
+System_Ext(email, "Proveedor de email", "externo, por definir")
+
+Rel(admin, saberpro, "")
+Rel(author, saberpro, "")
+Rel(reviewer, saberpro, "")
+Rel(student, saberpro, "")
+Rel(teacher, saberpro, "")
+Rel(saberpro, email, "", "SMTP (por definir)")
+
+SHOW_LEGEND()
+@enduml

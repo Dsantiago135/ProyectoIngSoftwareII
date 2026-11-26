@@ -1,0 +1,39 @@
+@startuml C3_MCAudit
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+title C3 MCAudit · 2 entradas, 1 salida
+
+ContainerQueue(rabbit, "RabbitMQ", "audit.queue")
+Container(gateway, "API Gateway", "solo GET")
+System_Boundary(mcaudit, "MCAudit") {
+    Container_Boundary(infra1, "Infra") {
+        Component(listener, "AuditEventListener", "Spring AMQP")
+        Component(controller, "AuditRestController", "Spring Web")
+    }
+    Container_Boundary(app1, "Aplicación") {
+        Component(recordUseCase, "RecordAuditUseCase", "Java")
+        Component(queryUseCase, "QueryAuditUseCase", "Java")
+    }
+    Container_Boundary(domain, "Dominio") {
+        Component(service, "AuditService", "Java")
+        Component(record, "AuditRecord", "Java")
+    }
+    Container_Boundary(app2, "Aplicación") {
+        Component(repositoryPort, "AuditRepositoryPort", "Java")
+    }
+    Container_Boundary(infra2, "Infra") {
+        Component(jpaAdapter, "AuditJpaAdapter", "Spring Data JPA, Hibernate")
+    }
+}
+ContainerDb(dbaudit, "DB_AUDIT", "PostgreSQL")
+
+Rel(rabbit, listener, "audit.queue", "AMQP")
+Rel(gateway, controller, "solo GET", "HTTP/REST")
+Rel(listener, recordUseCase, "")
+Rel(controller, queryUseCase, "")
+Rel(recordUseCase, service, "")
+Rel(queryUseCase, service, "")
+Rel(service, record, "")
+Rel(service, repositoryPort, "")
+Rel(repositoryPort, jpaAdapter, "")
+Rel(jpaAdapter, dbaudit, "")
+@enduml

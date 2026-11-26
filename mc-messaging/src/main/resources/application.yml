@@ -1,0 +1,36 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: mc-messaging
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:saberpro}
+    password: ${RABBITMQ_PASSWORD:saberpro-dev}
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 1s
+          multiplier: 2
+          max-interval: 5s
+          max-attempts: 3
+        default-requeue-rejected: false
+  mail:
+    host: ${SMTP_HOST:localhost}
+    port: ${SMTP_PORT:25}
+    username: ${SMTP_USERNAME:}
+    password: ${SMTP_PASSWORD:}
+    properties:
+      mail.smtp.auth: ${SMTP_AUTH:false}
+      mail.smtp.starttls.enable: ${SMTP_STARTTLS:false}
+messaging:
+  sender: ${EMAIL_FROM:no-reply@saberpro.local}
+services:
+  mc-user: ${MCUSER_URL:http://mc-user:8080}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health

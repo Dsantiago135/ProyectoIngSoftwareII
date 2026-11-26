@@ -1,0 +1,42 @@
+@startuml C2_Contenedores
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+title C2 · 6 contenedores y 2 de infraestructura en Docker
+
+Person(users, "Usuarios", "5 roles")
+System_Ext(email, "Proveedor de email", "externo, por definir")
+
+System_Boundary(saberpro, "Aplicación Saber Pro") {
+    Container(gateway, "API Gateway", "Spring Cloud Gateway (WebFlux), Spring Security", "Único punto de entrada. Valida el JWT, aplica las reglas de rol y enruta.")
+    Container(mcuser, "MCUser", "Spring Boot, Spring Data JPA, Spring Security, Spring AMQP", "Usuarios, login y emisión de JWT.")
+    Container(mcquestion, "MCQuestion", "Spring Boot, Spring Data JPA, Spring AMQP", "Banco de preguntas y su ciclo de vida.")
+    Container(mcreview, "MCReview", "Spring Boot, Spring Data JPA, Spring AMQP, RestClient", "Revisiones de preguntas.")
+    Container(mcaudit, "MCAudit", "Spring Boot, Spring Data JPA, Spring AMQP", "Guarda los eventos auditables y los expone solo en lectura.")
+    Container(mcmessaging, "MCMessaging", "Spring Boot, Spring AMQP", "Convierte eventos de aviso en emails y los envía. Sin base de datos ni REST.")
+
+    ContainerDb(dbuser, "DB_USER", "PostgreSQL 18", "")
+    ContainerDb(dbquestion, "DB_QUESTION", "PostgreSQL 18", "")
+    ContainerDb(dbreview, "DB_REVIEW", "PostgreSQL 18", "")
+    ContainerDb(dbaudit, "DB_AUDIT", "PostgreSQL 18", "")
+    ContainerQueue(rabbit, "RabbitMQ", "Docker", "exchange app.events → audit.queue, messaging.queue")
+}
+
+Rel(users, gateway, "HTTPS. Valida el JWT.")
+Rel(gateway, mcuser, "HTTP/REST")
+Rel(gateway, mcquestion, "HTTP/REST")
+Rel(gateway, mcreview, "HTTP/REST")
+Rel(gateway, mcaudit, "HTTP/REST. Solo GET.")
+Rel(gateway, mcuser, "Obtiene la clave pública (JWKS)", "HTTP/REST")
+Rel(mcreview, mcquestion, "REST síncrono")
+Rel(mcuser, dbuser, "JDBC/JPA, su propia base")
+Rel(mcquestion, dbquestion, "JDBC/JPA, su propia base")
+Rel(mcreview, dbreview, "JDBC/JPA, su propia base")
+Rel(mcaudit, dbaudit, "JDBC/JPA, su propia base")
+Rel(mcuser, rabbit, "Publica eventos", "AMQP/JSON")
+Rel(mcquestion, rabbit, "Publica eventos", "AMQP/JSON")
+Rel(mcreview, rabbit, "Publica eventos", "AMQP/JSON")
+Rel(rabbit, mcaudit, "Consume audit.queue", "AMQP/JSON")
+Rel(rabbit, mcmessaging, "Consume messaging.queue", "AMQP/JSON")
+Rel(mcmessaging, email, "SMTP (por definir)", "SMTP (por definir)")
+
+SHOW_LEGEND()
+@enduml

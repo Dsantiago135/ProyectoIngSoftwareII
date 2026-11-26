@@ -1,0 +1,33 @@
+@startuml C3_MCMessaging
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+title C3 MCMessaging · 1 entrada, 1 salida por definir
+
+ContainerQueue(rabbit, "RabbitMQ", "messaging.queue")
+System_Ext(email, "Proveedor de email", "externo, por definir")
+System_Boundary(mcmessaging, "MCMessaging") {
+    Container_Boundary(infra1, "Infra") {
+        Component(listener, "MessagingEventListener", "Spring AMQP")
+    }
+    Container_Boundary(app1, "Aplicación") {
+        Component(useCase, "SendNotificationUseCase", "Java")
+    }
+    Container_Boundary(domain, "Dominio") {
+        Component(service, "NotificationService", "Java")
+        Component(message, "EmailMessage", "Java")
+    }
+    Container_Boundary(app2, "Aplicación") {
+        Component(emailPort, "EmailSenderPort", "Java")
+    }
+    Container_Boundary(infra2, "Infra") {
+        Component(adapter, "EmailSenderAdapter", "por definir", $tags="pending")
+    }
+}
+Rel(rabbit, listener, "messaging.queue", "AMQP")
+Rel(listener, useCase, "")
+Rel(useCase, service, "")
+Rel(service, message, "")
+Rel(service, emailPort, "")
+Rel(emailPort, adapter, "")
+Rel_D(adapter, email, "por definir")
+SHOW_LEGEND()
+@enduml

@@ -1,0 +1,45 @@
+@startuml C3_MCQuestion
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+title C3 MCQuestion · Factory, Decorator y 2 salidas
+
+Container(gateway, "API Gateway", "Spring Cloud Gateway")
+Container(mcreview, "MCReview", "Spring Boot")
+System_Boundary(mcquestion, "MCQuestion") {
+    Container_Boundary(infra1, "Infra") {
+        Component(controller, "QuestionRestController", "Spring Web")
+    }
+    Container_Boundary(app1, "Aplicación") {
+        Component(useCase, "QuestionUseCase", "Java")
+    }
+    Container_Boundary(domain, "Dominio") {
+        Component(service, "QuestionService", "Java")
+        Component(factory, "QuestionFactory", "Java")
+        Component(question, "Question", "Java")
+        Component(decorator, "QuestionDecorator", "Java")
+    }
+    Container_Boundary(app2, "Aplicación") {
+        Component(repositoryPort, "QuestionRepositoryPort", "Java")
+        Component(eventPort, "EventPublisherPort", "Java")
+    }
+    Container_Boundary(infra2, "Infra") {
+        Component(jpaAdapter, "QuestionJpaAdapter", "Spring Data JPA, Hibernate")
+        Component(rabbitAdapter, "RabbitAdapter", "Spring AMQP")
+    }
+}
+ContainerDb(dbquestion, "DB_QUESTION", "PostgreSQL")
+ContainerQueue(rabbit, "RabbitMQ", "AMQP")
+
+Rel(gateway, controller, "")
+Rel(mcreview, controller, "")
+Rel(controller, useCase, "")
+Rel(useCase, service, "")
+Rel(service, factory, "")
+Rel(service, question, "")
+Rel(service, decorator, "")
+Rel(service, repositoryPort, "")
+Rel(service, eventPort, "")
+Rel(repositoryPort, jpaAdapter, "")
+Rel(eventPort, rabbitAdapter, "")
+Rel(jpaAdapter, dbquestion, "")
+Rel(rabbitAdapter, rabbit, "")
+@enduml
